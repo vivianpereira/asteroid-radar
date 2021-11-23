@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -17,11 +18,18 @@ class MainFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
-
         binding.viewModel = viewModel
-
         setHasOptionsMenu(true)
 
+        viewModel.asteroids.observe(viewLifecycleOwner) {
+            val adapter = MainAdapter(MainAdapter.OnClickListener {
+
+            })
+            adapter.submitList(it)
+            binding.asteroidRecycler.adapter = adapter
+        }
+
+        viewModel.loadAsteroids()
         return binding.root
     }
 
