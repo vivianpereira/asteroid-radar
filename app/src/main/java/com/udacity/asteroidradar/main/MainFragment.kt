@@ -5,6 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -14,8 +17,10 @@ class MainFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -23,10 +28,17 @@ class MainFragment : Fragment() {
 
         viewModel.asteroids.observe(viewLifecycleOwner) {
             val adapter = MainAdapter(MainAdapter.OnClickListener {
-
+                this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
+                viewModel.showAsteroidDetails()
             })
+
             adapter.submitList(it)
+            binding.asteroidRecycler.layoutManager = LinearLayoutManager(context)
             binding.asteroidRecycler.adapter = adapter
+        }
+
+        viewModel.urlImage.observe(viewLifecycleOwner) {
+            Picasso.get().load(it).into(binding.activityMainImageOfTheDay)
         }
 
         viewModel.loadAsteroids()

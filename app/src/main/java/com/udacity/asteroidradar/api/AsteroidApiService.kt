@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.api
 
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.PictureOfDay
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,10 +12,12 @@ interface AsteroidApiService {
     suspend fun getAsteroids(
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
-        @Query("api_key") key: String = Constants.API_KEY) : String
+        @Query("api_key") key: String
+    ): String
 
     @GET("planetary/apod")
     suspend fun getDailyPicture(
-        @Query("api_key") key: String = Constants.API_KEY)
+        @Query("api_key") key: String
+    ): PictureOfDay
 }
 

@@ -34,10 +34,16 @@ class MainAdapter(
         parent: ViewGroup,
         viewType: Int
     ): AsteroidViewHolder {
-        return AsteroidViewHolder(AsteroidItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return AsteroidViewHolder(
+            AsteroidItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
-    override fun onBindViewHolder(holder: MainAdapter.AsteroidViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         val asteroid = getItem(position)
         when (holder) {
             is AsteroidViewHolder -> {
