@@ -3,38 +3,26 @@ package com.udacity.asteroidradar.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.api.AsteroidApi
+import com.udacity.asteroidradar.repository.AsteroidsRepository
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
-    val _asteroids = MutableLiveData<List<Asteroid>>()
+    private val repository = AsteroidsRepository(
+        api = AsteroidApi
+    )
+    private val _asteroids = MutableLiveData<List<Asteroid>>()
     val asteroids: LiveData<List<Asteroid>>
         get() = _asteroids
 
 
     fun loadAsteroids() {
-        _asteroids.value = listOf(
-            Asteroid(
-                id = 1,
-                codename = "Test Asteroid",
-                closeApproachDate = "23/12/2021",
-                absoluteMagnitude = 100.0,
-                estimatedDiameter = 100.0,
-                relativeVelocity = 100.0,
-                distanceFromEarth = 100.0,
-                isPotentiallyHazardous = true
-            ),
-            Asteroid(
-                id = 2,
-                codename = "Test Asteroid 2",
-                closeApproachDate = "24/12/2021",
-                absoluteMagnitude = 100.0,
-                estimatedDiameter = 100.0,
-                relativeVelocity = 100.0,
-                distanceFromEarth = 100.0,
-                isPotentiallyHazardous = true
-            )
-        )
+        viewModelScope.launch {
+            _asteroids.value = repository.getAsteroids("2021-11-17", "2021-11-23")
+        }
     }
 
 
