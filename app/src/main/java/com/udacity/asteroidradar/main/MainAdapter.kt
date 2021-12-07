@@ -30,9 +30,7 @@ class MainAdapter(
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int
     ): AsteroidViewHolder {
         return AsteroidViewHolder(
             AsteroidItemBinding.inflate(
