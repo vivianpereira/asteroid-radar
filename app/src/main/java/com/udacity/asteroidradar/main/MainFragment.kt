@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -37,8 +38,17 @@ class MainFragment : Fragment() {
             binding.asteroidRecycler.adapter = adapter
         }
 
-        viewModel.urlImage.observe(viewLifecycleOwner) {
-            Picasso.get().load(it).into(binding.activityMainImageOfTheDay)
+        viewModel.picture.observe(viewLifecycleOwner) { picture ->
+            Picasso.get().load(picture.url).into(binding.activityMainImageOfTheDay)
+            binding.activityMainImageOfTheDay.contentDescription = picture.title
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            binding.statusLoadingWheel.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         viewModel.loadAsteroids()

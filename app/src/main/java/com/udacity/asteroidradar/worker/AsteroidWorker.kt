@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.worker
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.udacity.asteroidradar.api.AsteroidApi
@@ -23,6 +24,7 @@ class AsteroidWorker(private val context: Context, params: WorkerParameters) :
             try {
                 repository.loadAsteroids()
             } catch (ex: Exception) {
+                Log.e("AsteroidWorker", ex.message, ex)
                 Result.failure()
             }
             Result.success()
