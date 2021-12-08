@@ -4,8 +4,8 @@ import androidx.room.*
 
 @Dao
 interface AsteroidDao {
-    @Query("select * from AsteroidDBItem")
-    fun getAsteroids(): List<AsteroidDBItem>
+    @Query("select * from AsteroidDBItem where date(closeApproachDate) >= date(:date) order by closeApproachDate asc")
+    fun getAsteroids(date: String): List<AsteroidDBItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroidDBItems: AsteroidDBItem)

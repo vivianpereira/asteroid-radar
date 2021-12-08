@@ -17,13 +17,12 @@
 
 package com.udacity.asteroidradar.database
 
-import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import android.content.Context
+import androidx.room.Room
 
 private lateinit var instance: AsteroidDatabase
 
-fun Application.getDatabase(): AsteroidDatabase {
+fun Context.getDatabase(): AsteroidDatabase {
     synchronized(AsteroidDatabase::class.java) {
         if (!::instance.isInitialized) {
             instance = Room.databaseBuilder(
