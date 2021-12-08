@@ -39,7 +39,11 @@ class MainFragment : Fragment() {
         }
 
         viewModel.picture.observe(viewLifecycleOwner) { picture ->
-            Picasso.get().load(picture.url).into(binding.activityMainImageOfTheDay)
+            Picasso.get()
+                .load(picture.url)
+                .placeholder(R.drawable.placeholder_picture_of_day)
+                .error(R.drawable.placeholder_picture_of_day)
+                .into(binding.activityMainImageOfTheDay)
             binding.activityMainImageOfTheDay.contentDescription = picture.title
         }
 

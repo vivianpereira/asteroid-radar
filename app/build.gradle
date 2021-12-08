@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "NASA_API_KEY", '"lma31NB5QRArgn87sSKbjN8pDI4y1dn77H5X0hOQ"'
     }
     buildTypes {
         release {

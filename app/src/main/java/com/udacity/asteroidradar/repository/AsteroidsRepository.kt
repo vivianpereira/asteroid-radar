@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.repository
 
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.api.AsteroidApi
@@ -19,7 +20,7 @@ class AsteroidsRepository(
     suspend fun loadAsteroids() {
         val today = Date()
 
-        val apiResponse = asteroidApi.service.getAsteroids(today.formatDate(), Constants.API_KEY)
+        val apiResponse = asteroidApi.service.getAsteroids(today.formatDate(), BuildConfig.NASA_API_KEY)
         val json = JSONObject(apiResponse)
         val asteroids = parseAsteroidsJsonResult(json)
         dao.insertAll(*asteroids.map {
@@ -58,7 +59,7 @@ class AsteroidsRepository(
     }
 
     suspend fun getDailyPicture(): PictureOfDay {
-        return asteroidApi.service.getDailyPicture(Constants.API_KEY)
+        return asteroidApi.service.getDailyPicture(BuildConfig.NASA_API_KEY)
     }
 
 }
